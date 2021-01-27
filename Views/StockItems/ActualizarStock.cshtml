@@ -1,0 +1,44 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model ProyectoGrupo3NT.Models.StockItem
+}
+
+<h1>Actualizar Stock</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ActualizarStock">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="StockItemId" />*@
+            <div class="form-group">
+                <label asp-for="Sucursal" class="control-label"></label>
+                <select asp-for="SucursalId" class="form-control" asp-items="ViewBag.SucursalId"></select>
+                <span asp-validation-for="SucursalId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto" class="control-label"></label>
+                <select asp-for="ProductoId" class="form-control" asp-items="ViewBag.ProductoId"></select>
+                <span asp-validation-for="ProductoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label"></label>
+                <input asp-for="Cantidad" class="form-control" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver al Listado de Stock</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

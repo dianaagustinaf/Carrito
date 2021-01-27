@@ -1,0 +1,58 @@
+﻿@{
+}
+@model IEnumerable<ProyectoGrupo3NT.Models.Producto>;
+@inject Microsoft.AspNetCore.Identity.UserManager<ProyectoGrupo3NT.Models.Usuario> _usermgr
+@inject Microsoft.AspNetCore.Identity.SignInManager<Usuario> _signinmgr
+@{
+    <table class="table">
+
+        @if (Model != null && Model.Count() > 0)
+        {
+            <p class="h4">@Model.First().Categoria.Nombre</p>
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item != null)
+                        {
+                            var rutaFoto = "~/images/" + (item.Foto ?? "default.png");
+                            if (rutaFoto != "~/images/default.png")
+                            {
+                                <img src="@rutaFoto" class="figure-img img-fluid rounded" alt="Foto del producto." width="150px" height="150px" asp-append-version="true">
+                            }
+                            else
+                            {
+                                <p>Producto sin foto</p>
+                            }
+                        }
+                        <br />
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.PrecioVigente)</td>
+                    <td>
+                        @if (item.Activo == false)
+                        {
+                            <p class="text-danger">Pausado</p>
+                        }
+                        else
+                        {
+                            if (!_signinmgr.IsSignedIn(User) || User.IsInRole("Usuario"))
+                            {
+                                <a class="text-left" asp-action="AgregarAlCarrito" asp-controller="Carritos" asp-route-clienteId=@_usermgr.GetUserId(User)
+                                   asp-route-productoId=@item.ProductoId><img src="~/images/logo.png" alt="logo" width="25"></a>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>No hay productos de esta categoría en el sistema</td>
+            </tr>
+        }
+    </table>
+}

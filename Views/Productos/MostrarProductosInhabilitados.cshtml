@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model IEnumerable<ProyectoGrupo3NT.Models.Producto>;
+
+
+<table>
+
+    @if (Model.Count<Producto>() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td class="fuenteoscura">@Html.DisplayFor(modelItem => item.Nombre)</td>
+                <td>
+                                       
+                    <a class="btn btn-dark" asp-action="HabilitarProducto" asp-controller="Productos" asp-route-id=@item.ProductoId>Habilitar Producto</a>
+                                       
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td class="fuenteoscura">No hay productos inhabilitados en el sistema</td>
+        </tr>
+    }
+</table>
+
+<div>
+    <a asp-action="Index">Volver al Listado de Productos</a>
+</div>

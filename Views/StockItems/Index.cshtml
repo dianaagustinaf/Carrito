@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ProyectoGrupo3NT.Models.StockItem>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sucursal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sucursal.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.StockItemId">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.StockItemId">Detalles</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

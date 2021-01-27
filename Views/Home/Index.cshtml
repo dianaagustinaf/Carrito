@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<ProyectoGrupo3NT.Models.Categoria>;
+@inject Microsoft.AspNetCore.Identity.UserManager<ProyectoGrupo3NT.Models.Usuario> _usermgr;
+@inject Microsoft.AspNetCore.Identity.SignInManager<Usuario> _signinmgr;
+@{
+    @foreach (var cat in Model)
+    {
+        <p class="h4 text-center">@cat.Nombre</p>
+        <table class="table">
+            @*<tr>
+                <th scope="col">@Html.DisplayNameFor(p => p.Productos.First().Nombre)</th>
+                <th scope="col">@Html.DisplayNameFor(p => p.Productos.First().Descripcion)</th>
+                <th scope="col" class="text-right">@Html.DisplayNameFor(p => p.Productos.First().PrecioVigente)</th>
+            </tr>*@
+
+            @foreach (var producto in cat.Productos)
+            {
+                <tr>
+                    <td>
+                        @if (producto != null)
+                        {
+                            var rutaFoto = "~/images/" + (producto.Foto ?? "default.png");
+                            if (rutaFoto != "~/images/default.png")
+                            {
+                                <img src="@rutaFoto" class="figure-img img-fluid rounded" alt="Foto del producto." width="150px" height="150px" asp-append-version="true">
+                            }
+                            else
+                            {
+                                <p>Producto sin foto</p>
+                            }
+                        }
+                        <br />
+
+                        @producto.Nombre
+                    </td>
+                    <td>@producto.Descripcion</td>
+                    
+                    <td class="text-right">$ @producto.PrecioVigente</td>
+                    <td>
+
+                        @if (producto.Activo == false)
+                        {
+                            <p class="text-danger">Producto no disponible</p>
+                        }
+                        else
+                        {
+                            if (!_signinmgr.IsSignedIn(User) || User.IsInRole("Usuario"))
+                            {
+                                <a class="text-left" asp-action="AgregarAlCarrito" asp-controller="Carritos" asp-route-clienteId=@_usermgr.GetUserId(User)
+                                   asp-route-productoId=@producto.ProductoId><img src="~/images/logo.png" alt="logo" width="25"></a>
+
+                            }
+
+                        }
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+}

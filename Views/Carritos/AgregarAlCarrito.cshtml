@@ -1,0 +1,68 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<ProyectoGrupo3NT.Models.CarritoItem>;
+@inject ProyectoGrupo3NT.Data.MiContexto _micontexto;
+
+@{
+    var sucursales = _micontexto.Sucursales.ToList();
+}
+
+@if (Model != null && Model.Count() > 0)
+{
+
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">@Html.DisplayNameFor(c => c.Producto.Nombre)</th>
+            <th scope="col">@Html.DisplayNameFor(c => c.Producto.PrecioVigente)</th>
+            <th scope="col">@Html.DisplayNameFor(c => c.Cantidad)</th>
+            <th scope="col">@Html.DisplayNameFor(c => c.Subtotal)</th>
+            <th scope="col"></th>
+
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Producto.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.ValorUnitario)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
+                <td>@Html.DisplayFor(modelItem => item.Subtotal)</td>
+                <td>
+                    <a class="btn btn-primary" asp-action="AumentarCantidad" asp-controller="Carritos" asp-route-carritoItemId=@item.CarritoItemId>+</a>
+                    <a class="btn btn-danger" asp-action="DisminuirCantidad" asp-controller="Carritos" asp-route-carritoItemId=@item.CarritoItemId asp-route-clienteId=@item.Carrito.ClienteId>-</a>
+                </td>
+            </tr>
+        }
+    </table>
+    <table class="table table-striped">
+        <tr>
+            <td>Total</td>
+            <td>$ @Model.First().Carrito.Subtotal</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <a class="btn btn-dark float-right" asp-action="VaciarCarrito" asp-controller="Carritos" asp-route-clienteId=@Model.First().Carrito.ClienteId>Vaciar Carrito</a>
+    <br />
+    <p class="text-dark">Seleccione la sucursal deseada para confirmar su compra</p>
+    <div>
+
+        @foreach (Sucursal s in sucursales)
+        {
+            <a class="btn btn-dark" asp-action="ConfirmarCompra" asp-controller="Compras" asp-route-carritoId=@Model.First().CarritoId asp-route-sucursalId=@s.Id>
+                @s.Nombre  |  @s.Direccion
+            </a>
+        }
+
+    </div>
+
+    var idUltimaCategoria = Model.Last().Producto.CategoriaId;
+    <br />
+    <a class="btn btn-dark" asp-action="MostrarProductosPorCategoria" asp-controller="Categorias" asp-route-categoriaId=@idUltimaCategoria>Volver</a>
+}
+else
+{
+    <p class="h5">Su carrito está vacío</p>
+}

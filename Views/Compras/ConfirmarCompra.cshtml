@@ -1,0 +1,50 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<ProyectoGrupo3NT.Models.CarritoItem>;
+
+<br />
+<p class="h3">¡Felicitaciones! Su compra ha sido confirmada</p>
+<p class="h5">Este es el resumen de su compra:</p>
+
+@if (Model != null && Model.Count() > 0)
+{
+
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">@Html.DisplayNameFor(c => c.First().Producto.Nombre)</th>
+            <th scope="col">@Html.DisplayNameFor(c => c.First().Producto.PrecioVigente)</th>
+            <th scope="col">@Html.DisplayNameFor(c => c.First().Cantidad)</th>
+            <th scope="col">@Html.DisplayNameFor(c => c.Carrito.Subtotal)</th>
+            
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Producto.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.ValorUnitario)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
+                <td>@Html.DisplayFor(modelItem => item.Subtotal)</td>
+            </tr>
+        }
+    </table>
+    <table class="table table-striped">
+        <tr>
+            <td>Total</td>
+            <td>$ @Model.First().Carrito.Subtotal</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <br />
+    <p class="h5">Puede retirar su compra con ID @ViewBag.compra.CompraId en la sucursal: </p>
+    <p class="h6">@ViewBag.sucursal.Nombre | @ViewBag.sucursal.Direccion 
+    @ViewBag.sucursal.Telefono | @ViewBag.sucursal.Email </p>
+ 
+}
+else
+{
+    <p class="h3">Ha habido un error en el procesamiento de su compra</p>
+}

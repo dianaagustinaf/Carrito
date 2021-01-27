@@ -1,0 +1,21 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{   
+}
+@model ProyectoGrupo3NT.Models.Carrito;
+
+<p class="h5">La sucursal que ha elegido no posee stock de todo su carrito</p>
+<p class="h5">Las siguientes sucursales cuentan con stock. Seleccione la que desea para confirmar su compra</p>
+<div class="list-group">
+    
+    @foreach (Sucursal s in ViewBag.SucursalesConStock)
+    {
+        <a class="list-group-item list-group-item-action active" asp-action="ConfirmarCompra" asp-controller="Compras"
+           asp-route-carritoId=@Model.CarritoId asp-route-sucursalId=@s.Id>
+            @s.Nombre  |  @s.Direccion
+        </a>
+    }
+
+</div>
+

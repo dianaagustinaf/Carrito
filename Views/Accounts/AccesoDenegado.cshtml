@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "AccesoDenegado";
+    var recurso = TempData["returnurl"] as string;
+}
+
+<h1>Acceso Denegado</h1>
+
+<p class="text-dark h5">
+    Lamentablemente Ud. @User.Identity.Name no tiene permisos para acceder a
+    <span class="text-dark">@recurso</span>
+</p>
+
+<a class="btn btn-secondary" asp-action="Index" asp-controller="Home">Volver al Inicio</a>
